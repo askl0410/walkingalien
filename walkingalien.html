@@ -74,45 +74,48 @@ var y = 1;
 var img = document.getElementById('x')
 var alien = 108;
 var jumpX = [];
-// var plus = null;
+var moveRdistance = 0;
+var moveLdistance = 0;
+var movedistance  = 0;
 
-console.log(alien, "walk");
-console.log(width, "screen");
 // make alien move with feet animation by switch mages from 0-30
 function move(){
-// console.log(alien, "asgag");
-// console.log(x, "xxx");
+
   alien += x;
   // newWidth = width -jump distance in the air
-   newWidth = width - jumpX.length/2;
+   newWidth = width - jumpX.length;
   if(alien >= newWidth){
     x = -x
     jumpX.length = 0;
-
   }
-    if(alien < 108){
+    if(alien == 100){
         x = -x
         jumpX.length = 0;
     }
 console.log(newWidth, 'newwidth');
-console.log(x, "xxx");
   // step++ make image switch to next image till reach 30 go back to 0
     step++;
     if(step >= 30){
         step = 0
     }
+    console.log(alien, "alient pos");
 // make alien move and switch images from 0-30
-    // var img = document.getElementById('x')
+  // make alien turn around if it reach the wall by changing images src
+    if(x >= 0){
     img.style.left = parseInt(img.style.left) + x + 'px'
     img.src='images/alien/alienrwalk' + step + '.gif'
+}else{
+       img.style.left = parseInt(img.style.left) + x + 'px'
+    img.src='images/alien/alienlwalk' + step + '.gif'
 }
+}//end of function move
 
 // make the alien move in the air without feet animation
 function moveNoFeet(){
-    console.log(x, "nofeet")
+
     // var img = document.getElementById('x')
     img.style.left = parseInt(img.style.left) + x + 'px'
-    jumpX.push(x, 'value');
+    jumpX.push(x);
 
 }
 
@@ -177,9 +180,10 @@ function jumping(){
     }
 
     im.onclick = function moveAnimation(){
+
             if(myTimer == null){
             // not running; let's start a timer
-            myTimer = setInterval(move, 17)
+            myTimer = setInterval(move, 17);
             // its already running then make var running = true;
             running = true;
         }else{
