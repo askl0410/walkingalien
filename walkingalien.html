@@ -1,4 +1,7 @@
-<html><head><script>
+<html>
+<head>
+  <script>
+    // move all the code to the onload
     // Mytimer is interval of the moving function
 // var myTimer = null;
 // // step = ending number of the images
@@ -63,7 +66,7 @@
 
 
 onload=function(){
-    var myTimer = null;
+var myTimer = null;
 // step = ending number of the images
 var step = 0;
 var running = false;
@@ -74,25 +77,30 @@ var y = 1;
 var img = document.getElementById('x')
 var alien = 108;
 var jumpX = [];
-var moveRdistance = 0;
-var moveLdistance = 0;
-var movedistance  = 0;
-
+console.log(jumpX);
 // make alien move with feet animation by switch mages from 0-30
 function move(){
-
+console.log(width, "width");
   alien += x;
   // newWidth = width -jump distance in the air
-   newWidth = width - jumpX.length;
-  if(alien >= newWidth){
+   // newWidth = width - jumpX.length;
+  if(alien >= width){
     x = -x
-    jumpX.length = 0;
+    // jumpX.length = 0;
   }
-    if(alien == 100){
+     
+    if(alien <= 108){
         x = -x
-        jumpX.length = 0;
+        alien = 108;
+       // jumpX.length = 0;
     }
-console.log(newWidth, 'newwidth');
+ if( (width - alien) <= 200 ){
+        jumpbtn.disabled = true;
+      }else{
+        jumpbtn.disabled = false;
+      } 
+   
+// console.log(newWidth, 'newwidth');
   // step++ make image switch to next image till reach 30 go back to 0
     step++;
     if(step >= 30){
@@ -105,6 +113,7 @@ console.log(newWidth, 'newwidth');
     img.style.left = parseInt(img.style.left) + x + 'px'
     img.src='images/alien/alienrwalk' + step + '.gif'
 }else{
+
        img.style.left = parseInt(img.style.left) + x + 'px'
     img.src='images/alien/alienlwalk' + step + '.gif'
 }
@@ -112,11 +121,11 @@ console.log(newWidth, 'newwidth');
 
 // make the alien move in the air without feet animation
 function moveNoFeet(){
-
+    alien += x;
     // var img = document.getElementById('x')
     img.style.left = parseInt(img.style.left) + x + 'px'
     jumpX.push(x);
-
+  
 }
 
 
@@ -140,7 +149,11 @@ function jumping(){
 
 // jump button click run function make alien jump
     jumpbtn.onclick=function(){
-
+      this.disabled = true;
+      setTimeout(function(){
+        jumpbtn.disabled = false;
+      },2000);
+    
 // if height = 0 then fun this funtion. use to prevent repeated function.
         if(height == 0){
            clearInterval(myTimer);
@@ -151,11 +164,11 @@ function jumping(){
                console.log(height);
             },100);
 
-           jumpTimer = setInterval(jumping, 10);
-           noFeetTimer = setInterval(moveNoFeet, 10);
+           jumpTimer = setInterval(jumping, 9);
+           noFeetTimer = setInterval(moveNoFeet, 9);
             setTimeout(function(){
                 clearInterval(jumpTimer);
-              droptimer = setInterval(dropping, 10);
+              droptimer = setInterval(dropping, 9);
             },700);
             // at this point height = 7
 // stop jump and move in the air
@@ -177,7 +190,7 @@ function jumping(){
             // at this point height = 14
         }
 
-    }
+    }//emd of jumpbtn click function
 
     im.onclick = function moveAnimation(){
 
@@ -195,6 +208,7 @@ function jumping(){
         }
 
     }
+
 
 }
 
