@@ -1,205 +1,179 @@
 <html>
 <head>
   <script>
-    // move all the code to the onload
-    // Mytimer is interval of the moving function
-// var myTimer = null;
-// // step = ending number of the images
-// var step = 0;
-// var running = false;
-// var height = 0;
-// var width = window.innerWidth;
-// var x = 1;
-// var y = 1;
-// var img = document.getElementById('x')
-// var alien = 108;
-
-
-// console.log(alien, "walk");
-// console.log(width, "screen");
-// // make alien move with feet animation by switch mages from 0-30
-// function move(){
-// console.log(alien, "asgag");
-// console.log(x, "xxx");
-//   alien += x;
-//   if(alien == width){
-//     x = -x
-//   }
-//     if(alien == 108){
-//         x = x
-//     }
-
-//   // step++ make image switch to next image till reach 30 go back to 0
-//     step++;
-//     if(step >= 30){
-//         step = 0
-//     }
-// // make alien move and switch images from 0-30
-//     var img = document.getElementById('x')
-//     img.style.left = parseInt(img.style.left) + x + 'px'
-//     img.src='images/alien/alienrwalk' + step + '.gif'
-// }
-
-// // make the alien move in the air without feet animation
-// function moveNoFeet(){
-//     var img = document.getElementById('x')
-//     img.style.left = parseInt(img.style.left) + x + 'px'
-// }
-
-
-// // make alien jupm up
-// function jumping(){
-//     var jumpbtn = document.getElementById('jumpbtn');
-//     var im = document.getElementById('x');
-
-//             im.style.top = parseInt(im.style.top) - y + 'px';
-
-
-//     }
-// // make the alien drop down after jump up
-//     function dropping(){
-//         var im = document.getElementById('x');
-
-//         im.style.top = parseInt(im.style.top) + y + 'px';
-//     }
-
-
 
 onload=function(){
 var myTimer = null;
-// step = ending number of the images
-var step = 0;
+var jumpUp = true;
+var step = 0;             //images name ending number
 var running = false;
 var height = 0;
 var width = window.innerWidth;
+var screenHeight = window.innerHeight;
 var x = 1;
 var y = 1;
-var img = document.getElementById('x')
-var alien = 108;
-var jumpX = [];
-console.log(jumpX);
+var img = document.getElementById('x');
+var alien = 108;    // alien position start at 108 (alien width + 12px position right)
+
 // make alien move with feet animation by switch mages from 0-30
 function move(){
-console.log(width, "width");
-  alien += x;
-  // newWidth = width -jump distance in the air
-   // newWidth = width - jumpX.length;
-  if(alien >= width){
-    x = -x
-    // jumpX.length = 0;
-  }
-     
-    if(alien <= 108){
-        x = -x
-        alien = 108;
-       // jumpX.length = 0;
-    }
- if( (width - alien) <= 200 ){
-        jumpbtn.disabled = true;
-      }else{
-        jumpbtn.disabled = false;
-      } 
-   
-// console.log(newWidth, 'newwidth');
+  width = window.innerWidth;
+   running = true;
+    // console.log(width, "width");
+      alien += x;
+      if(alien >= width){
+        x = -x;
+      }
+
+        if(alien <= 108){
+            x = -x;
+            alien = 108;
+        }
+        // disable buttons at everytime alien at 200 and 220 to the wall so it wont be able to jump off the screen size
+     if( (width - alien) <= 250 || alien < 250){
+          jumpbtn.disabled = true;
+          }else{
+
+            jumpbtn.disabled = false;
+          }
+
   // step++ make image switch to next image till reach 30 go back to 0
     step++;
     if(step >= 30){
         step = 0
     }
-    console.log(alien, "alient pos");
+    // console.log(alien, "alient pos");
 // make alien move and switch images from 0-30
   // make alien turn around if it reach the wall by changing images src
-    if(x >= 0){
-    img.style.left = parseInt(img.style.left) + x + 'px'
-    img.src='images/alien/alienrwalk' + step + '.gif'
-}else{
+          if(x >= 0){
+          img.style.left = parseInt(img.style.left) + x + 'px'
+          img.src='images/alien/alienrwalk' + step + '.gif'
+          }else{
+                 img.style.left = parseInt(img.style.left) + x + 'px'
+              img.src='images/alien/alienlwalk' + step + '.gif'
+          }
+      // just for fun...if alien at the front door run all these animation
 
-       img.style.left = parseInt(img.style.left) + x + 'px'
-    img.src='images/alien/alienlwalk' + step + '.gif'
-}
-}//end of function move
+       if (alien >= width - 150) {
+          document.getElementById("message").style = "display: block; border: 1px blue solid; border-radius: 100px 100px 0px 100px; height: 50px; width: 150px; text-align: center; position: absolute; top: 130px; right: 0; background-color: grey";
+       }else{
+        document.getElementById("message").style = "display: none;"
+       }
+      if( (width - alien) <= 180){
+        document.getElementById("warning").style = "display: block; color: red; animation: blink 1s ease infinite";
+        document.getElementById("rightDoor").className = "openDoor";
+        document.getElementById("scaning").className = "scan";
+      }else {
+
+        document.getElementById("rightDoor").className = "closeDoor";
+        document.getElementById("scaning").className = "";
+        document.getElementById("warning").style = "display: none;";
+      }
+       if(alien < 220){
+         document.getElementById("door").className = "openDoor";
+      }else{
+        document.getElementById("door").className = "closeDoor";
+      }
+   console.log(alien, 'pos');
+  }//end of function move
 
 // make the alien move in the air without feet animation
 function moveNoFeet(){
     alien += x;
-    // var img = document.getElementById('x')
+    console.log(alien, "jumping");
     img.style.left = parseInt(img.style.left) + x + 'px'
-    jumpX.push(x);
-  
+
 }
 
 
 // make alien jupm up
 function jumping(){
-    var jumpbtn = document.getElementById('jumpbtn');
-    var im = document.getElementById('x');
-
-            im.style.top = parseInt(im.style.top) - y + 'px';
-
-
+            img.style.top = parseInt(img.style.top) - y + 'px';
     }
 // make the alien drop down after jump up
     function dropping(){
-        var im = document.getElementById('x');
-
-        im.style.top = parseInt(im.style.top) + y + 'px';
+        img.style.top = parseInt(img.style.top) + y + 'px';
     }
 
-    var im = document.getElementById('x');
 
+jumpbtn.addEventListener("click", clickJump);
 // jump button click run function make alien jump
-    jumpbtn.onclick=function(){
-      this.disabled = true;
-      setTimeout(function(){
-        jumpbtn.disabled = false;
-      },2000);
-    
-// if height = 0 then fun this funtion. use to prevent repeated function.
-        if(height == 0){
+function clickJump(){
+      // use to disable button from spaming. allow click every 2 second only
+    if(jumpUp == true){
+     this.disabled = true;
+    }else{
+         jumpUp= false
+          setTimeout(function(){
+            jumpbtn.disabled = false;
+            jumpUp = null;
+            },2000);
+         }
+     // if its running make it jump and running
+        if(running == true){
+          // this make sure alien jump with no walking animation on the air
            clearInterval(myTimer);
             myTimer = null;
             // setInterval so height + 1 every 100 (0.1s)
           heightTimer = setInterval(function(){
               height++
-               console.log(height);
             },100);
 
-           jumpTimer = setInterval(jumping, 9);
-           noFeetTimer = setInterval(moveNoFeet, 9);
+           jumpTimer = setInterval(jumping, 8);
+           noFeetTimer = setInterval(moveNoFeet, 10);
+
             setTimeout(function(){
                 clearInterval(jumpTimer);
-              droptimer = setInterval(dropping, 9);
-            },700);
-            // at this point height = 7
+              droptimer = setInterval(dropping, 8);
+            },400);    //change this number to heigher to  make him jump far and heigh 1st timer
+
 // stop jump and move in the air
-            setTimeout(function(){
+              setTimeout(function(){
               clearInterval(droptimer);
               clearInterval(heightTimer);
               clearInterval(noFeetTimer);
+
 // reset height to 0 so jump button can be click again to make alien jump
-              height = 0;
-        if(running){
+             height = 0;
             // if its already running before it jump; let's its running again after landed
-            myTimer = setInterval(move, 17)
-        }else{
+                      if(running){
+                          myTimer = setInterval(move, 18)
+                      }else{
             // if its not running before it jump? let its landing and not start running again
-            clearInterval(myTimer)
-            myTimer = null
-        }
-            },1400);
-            // at this point height = 14
-        }
+                          clearInterval(myTimer)
+                          myTimer = null
+                          }
+                        jumpbtn.disabled = false;  // enable jump button again when alien land
+              },800);  //this number must be 2x the  1st timer this is the timer when he land
+
+        }else{       //else of the if running == true
+           clearInterval(myTimer);
+            myTimer = null;
+          jumpTimer = setInterval(jumping, 8);
+              setTimeout(function(){
+                clearInterval(jumpTimer);
+              droptimer = setInterval(dropping, 8);
+            },400);
+              setTimeout(function(){
+                 clearInterval(droptimer);
+                 jumpbtn.disabled = false;
+              },800);
+
+            } // end of else
 
     }//emd of jumpbtn click function
 
-    im.onclick = function moveAnimation(){
-
-            if(myTimer == null){
+img.onclick =  function moveAnimation(){
+          // the click when it's in the air, that way no bug when click
+            if(myTimer == null && height == 0){
+                document.getElementById("instruction").className = "disappear";
             // not running; let's start a timer
-            myTimer = setInterval(move, 17);
+            myTimer = setInterval(move, 18);
             // its already running then make var running = true;
             running = true;
-        }else{
+        }
+        else{
+                document.getElementById("instruction").className = "appear";
             // timer is already running; let's stop it
             clearInterval(myTimer)
             myTimer = null
@@ -207,19 +181,98 @@ function jumping(){
             running = false;
         }
 
-    }
+    }//end of img.onclick
 
-
-}
+}//end of onload
 
 
 </script>
 </head>
-<body>
-    <button id="jumpbtn">Jump</button>
+<body style="background-color:#DEE6D2; margin: 0;">
+    <p id="instruction" style="position: absolute; left: 35%;"><b>Click on Alien to make it move or stop. CLick on the Jump button below to make it jump</b></p>
+    <button id="jumpbtn" style= "position: relative; border: 2px red solid;
+    left: 50%; top: 430px; z-index: 9999; width: 70px;"><b>Jump</b></button>
+
+ <div id="message" style="display: none;">
+  <p style="font-size: 13px; color: blue;"> <b>Sorry only human may enter! go away!</b></p>
+</div>
+
+ <div id="right-wall" style="position: absolute; right: 0; top:190px; width: 200px; height: 200px; background-color: rgba(47, 44, 44, 0.2); z-index: 99; text-align: center; overflow: hidden;">
+ <div id="scaning" style="border: 1px solid red; width: 100%; height:3px;"> </div>
+ <h3><br>Security Check</h3><p id="warning" style=" display: none">Warning! <br> Not a Human <b>!</b></p>
+  <div id="rightDoor" style="width: 20px; height: 55%; position: relative; right : 0;
+   background-color: red;"></div></div>
 
     <img src="images/alien/alienrwalk11.gif" id="x"
-         style="position:absolute; left:12px; top:300px">
+         style="position:absolute; left: 12px; top:300px;">
+
+
+  <div id="ground" style="height: 50px; width: 100%; background-color: black; border-top: 15px yellow dashed; position: relative; top: 365px">
+  </div>
+
+  <div id="left-wall" style="width: 130px; overflow: hidden; height: 200px;position: absolute; left: 0; top:197px; background-color: grey; z-index: -1; opacity: 0.6;">
+    <div id="door" style="width: 20px; height: 100%; position: relative; left: 85%; background-color: red; background-image: url(images/wallmetal.jpg)">
+    </div>
+ </div>
+  <img id="ufo" src="images/ufo-md.png">
+<audio id="jumpSound" src="jumpsound.mp3" type="audio/mp3" ></audio>
+<audio id="doorSound"  src="doorsound.mp3" type="audio/mp3" ></audio>
+<!-- styling begin -->
+<style>
+ #ufo {
+  margin-left:100px;
+  z-index: -1;
+  animation: float 8s ease-in-out infinite;
+ }
+.scan {animation: scanning 3s linear infinite;}
+ .closeDoor {
+   transform: translateY(0%);
+   transition: .3s ease-in-out;
+}
+
+ .openDoor {
+   transform: translateY(100%);
+   transition: .3s ease-in-out;
+}
+.disappear{
+  animation: fadeOut 2s ease forwards; /*forwards make animation once only */
+
+}
+.appear{
+  animation: fadeIn 2s ease forwards;
+}
+@keyframes fadeOut{
+  0%{ opacity: 1 }
+ 50%{ opacity: 0.5}
+100%{ opacity: 0}
+}
+@keyframes fadeIn{
+  0%{ opacity: 0}
+ 50%{ opacity: 0.5}
+100%{ opacity: 1}
+}
+@keyframes float {
+  0% {
+
+    transform: translatey(0px);
+  }
+  50% {
+
+    transform: translatey(-20px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+ @keyframes scanning {
+    100% { transform: translate(0, 200px); }
+}
+@keyframes blink {
+    0% {color: red;}
+    100% {color: yellow;}
+}
+</style>
 
 </body>
 </html>
